@@ -3,15 +3,16 @@
 
 using namespace std;
 
-class vector 
+class vector
 {
-public :
+private :
+	bool isReversed = false;
+public:
 	int x;
 	int y;
-	bool isReversed = false;
 	vector(int _x, int _y) : x{ _x }, y{ _y } {};
 	vector() : x{ 0 }, y{ 0 } {};
-	double disSqrt()
+	double disPow()
 	{
 		return pow(x, 2) + pow(y, 2);
 	}
@@ -30,25 +31,7 @@ public :
 		isReversed = false;
 	}
 
-	vector operator+(const vector &vec)
-	{
-		vector res;
-
-		res.x = x + vec.x;
-		res.y = y + vec.y;
-
-		return res;
-	}
-	vector operator*(const int &value)
-	{
-		vector res;
-
-		res.x = x * value;
-		res.y = y * value;
-
-		return res;
-	}
-	void operator+=(const vector &vec)
+	void operator+=(const vector& vec)
 	{
 		x += vec.x;
 		y += vec.y;
@@ -82,25 +65,19 @@ vector findMinVector(int startIndex, int level, vector startSum, double startdis
 		pointPos[i].original();
 	}
 
-	for (int i = startIndex; i < pointCount - level; ++i)
+	for (int i = startIndex; i <= pointCount - level; ++i)
 	{
 		vector sumT = findMinVector(i + 1, level - 1, minSum, minDis);
-		double value = sumT.disSqrt();
+		double value = sumT.disPow();
 		if (value < minDis)
 		{
 			minDis = value;
 			minSum = sumT;
 		}
 
+		if (i == pointCount - level) break;
 		pointPos[i].original();
 		pointPos[i + 1].reverse();
-	}
-	vector sumT = findMinVector(pointCount - level + 1, level - 1, minSum, minDis);
-	double value = sumT.disSqrt();
-	if (value < minDis)
-	{
-		minDis = value;
-		minSum = sumT;
 	}
 
 	return minSum;
@@ -117,7 +94,7 @@ int main()
 
 	for (int k = 0; k < count; k++)
 	{
-		vector sum;
+		vector startVec;
 		cin >> pointCount;
 		pointPos = new vector[pointCount];
 		for (int i = 0; i < pointCount; ++i)
@@ -125,17 +102,15 @@ int main()
 			cin >> pointPos[i].x;
 			cin >> pointPos[i].y;
 
-			if (i < pointCount / 2)
-				pointPos[i].reverse();
-
-			sum += pointPos[i];
+			if (i < pointCount / 2)pointPos[i].reverse();
+			startVec += pointPos[i];
 		}
 
-		vector minSum = findMinVector(1, pointCount / 2 - 1, sum, sum.disSqrt());
+		vector minSum = findMinVector(1, pointCount / 2 - 1, startVec, startVec.disPow());
 
 		cout << fixed;
 		cout.precision(12);
-		cout << sqrt(minSum.disSqrt()) << endl;
+		cout << sqrt(minSum.disPow()) << endl;
 	}
 }
 
