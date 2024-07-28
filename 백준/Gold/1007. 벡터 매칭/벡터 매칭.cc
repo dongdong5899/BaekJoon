@@ -52,12 +52,9 @@ vector sumVector()
 
 	return sumVec;
 }
-vector findMinVector(int startIndex, int level, vector startSum, double startdis)
+vector findMinVector(int startIndex, int level, vector minSum, double minDis)
 {
 	if (level == 0) return sumVector();
-
-	double minDis = startdis;
-	vector minSum = startSum;
 
 	pointPos[startIndex].reverse();
 	for (int i = startIndex + 1; i <= pointCount - level; ++i)
