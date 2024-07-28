@@ -94,7 +94,7 @@ int main()
 
 	for (int k = 0; k < count; k++)
 	{
-		vector startVec;
+		vector minSum;
 		cin >> pointCount;
 		pointPos = new vector[pointCount];
 		for (int i = 0; i < pointCount; ++i)
@@ -103,14 +103,13 @@ int main()
 			cin >> pointPos[i].y;
 
 			if (i < pointCount / 2)pointPos[i].reverse();
-			startVec += pointPos[i];
+			minSum += pointPos[i];
 		}
 
-		vector minSum = findMinVector(1, pointCount / 2 - 1, startVec, startVec.disPow());
+		minSum = findMinVector(1, pointCount / 2 - 1, minSum, minSum.disPow());
 
 		cout << fixed;
 		cout.precision(12);
 		cout << sqrt(minSum.disPow()) << endl;
 	}
 }
-
